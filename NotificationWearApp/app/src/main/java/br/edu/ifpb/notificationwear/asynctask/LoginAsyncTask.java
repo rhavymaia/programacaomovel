@@ -63,32 +63,25 @@ public class LoginAsyncTask extends AsyncTask<String, Void, HttpURLConnection>{
     @Override
     protected void onPostExecute(HttpURLConnection connection) {
 
-
-        int status = 0;
-        try {
-            status = connection.getResponseCode();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Log.i("NotificationWearApp", "Status HTTP-Response: " + status);
-
-        String content = HttpService.getHttpContent(connection);
-
-
-        Log.i("NotificationWearApp", "onPostExecute");
-        Log.i("NotificationWearApp", "Retorno: " + valor);
-
         try {
 
-            JSONObject json = new JSONObject(valor);
+            int status = connection.getResponseCode();
+
+            Log.i("NotificationWearApp", "Status HTTP-Response: " + status);
+
+            String contentValue = HttpService.getHttpContent(connection);
+            JSONObject json = new JSONObject(contentValue);
+
             String nome = json.getString("nome");
             Toast.makeText(context, nome, Toast.LENGTH_LONG).show();
 
+        } catch (IOException e) {
+
+            e.printStackTrace();
+
         } catch (JSONException e) {
 
-            Log.e("NotificationWearApp","JSONException");
+            Log.e("NotificationWearApp", "JSONException");
         }
-
-        super.onPostExecute(valor);
     }
 }
