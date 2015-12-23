@@ -44,7 +44,12 @@ public class HttpService {
 
         try {
 
-            InputStream content = connection.getInputStream();
+            InputStream content;
+            
+            if(connection.getResponseCode() <= HttpURLConnection.HTTP_BAD_REQUEST)
+                content = connection.getInputStream();
+            else
+                content = connection.getErrorStream();
             BufferedReader reader = new BufferedReader(new InputStreamReader(
                     content, "iso-8859-1"), 8);
 
