@@ -21,8 +21,8 @@ import java.net.URL;
  */
 public class HttpService {
 
-    // IP da máquina onde se encontra o servidor.
-    private static final String URL_CONTEXT = "http://192.168.0.168:8080/rest-servlet-service/";
+    // IP da máquina onde se encontra o servidor. response
+    private static final String URL_CONTEXT = "http://192.168.1.245:8443/nutrif/NutrIF_service/";
 
     public static HttpURLConnection sendGetRequest(String service)
             throws MalformedURLException, IOException{
@@ -38,12 +38,13 @@ public class HttpService {
         return connection;
     }
 
-    public static Response sendJSONPostResquest(JSONObject jsonObject, String serviceURL)
+    public static Response sendJSONPostResquest(String service, JSONObject jsonObject)
             throws MalformedURLException, IOException {
 
         HttpURLConnection connection = null;
+        Response response = null;
 
-        URL url = new URL(serviceURL);
+        URL url = new URL(URL_CONTEXT + service);
 
         connection = (HttpURLConnection) url.openConnection();
         connection.setDoOutput(true);
@@ -56,16 +57,12 @@ public class HttpService {
         DataOutputStream stream = new DataOutputStream(connection.getOutputStream());
 
         stream.writeBytes(jsonObject.toString());
-
         stream.flush();
         stream.close();
 
         int httpCode = connection.getResponseCode();
         String content = getHttpContent(connection);
-
-        connection.disconnect();
-
-        Response response = new Response(httpCode, content);
+        response = new Response(httpCode, content);
 
         return response;
     }
