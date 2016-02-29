@@ -5,9 +5,12 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.widget.ArrayAdapter;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,16 +19,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edittextlistener.ifpb.edu.br.edittextlistenerapp.R;
+import edittextlistener.ifpb.edu.br.edittextlistenerapp.adapter.PessoasCustomAdapter;
 import edittextlistener.ifpb.edu.br.edittextlistenerapp.asynctask.BuscarNomeAsyncTask;
+import edittextlistener.ifpb.edu.br.edittextlistenerapp.callback.BuscarPessoaCallBack;
+import edittextlistener.ifpb.edu.br.edittextlistenerapp.entidade.Pessoa;
 
-public class BuscarNomeActivity extends Activity implements TextWatcher {
+public class BuscarNomeActivity extends Activity
+        implements TextWatcher, OnItemClickListener, BuscarPessoaCallBack {
 
     // Define o tamanho mínimo do texto para consulta no servidor.
     private static int TAMANHO_MINIMO_TEXTO = 4;
 
     private EditText nomeEditText;
-    List<String> nomes;
-    ArrayAdapter<String> adapter;
+    List<Pessoa> pessoas;
+    PessoasCustomAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,18 +46,21 @@ public class BuscarNomeActivity extends Activity implements TextWatcher {
         nomeEditText.addTextChangedListener(this);
 
         ListView nomesListView = (ListView) findViewById(R.id.nomesListView);
-        nomes = new ArrayList<String>();
-        adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1,
-                nomes);
+        pessoas = new ArrayList<Pessoa>();
+        adapter = new PessoasCustomAdapter(this, pessoas);
 
+        // Adapter modificado.
         nomesListView.setAdapter(adapter);
+
+        // Evento de OnItemClickListener.
+        nomesListView.setOnItemClickListener(this);
     }
 
+    // TextWatcher
     @Override
     public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
 
-        Log.i("EditTextListener","beforeTextChanged: " + charSequence);
+        Log.i("EditTextListener", "beforeTextChanged: " + charSequence);
     }
 
     @Override
@@ -67,12 +77,8 @@ public class BuscarNomeActivity extends Activity implements TextWatcher {
                 JSONObject json = new JSONObject();
                 json.put("fullName", nome);
 
-                BuscarNomeAsyncTask buscarNomeAsyncTask = new BuscarNomeAsyncTask();
+                BuscarNomeAsyncTask buscarNomeAsyncTask = new BuscarNomeAsyncTask(this);
                 buscarNomeAsyncTask.execute(json);
-
-                // Adicionar ao ListView.
-                nomes.add(nome);
-                adapter.notifyDataSetChanged();
             }
 
         } catch (JSONException e) {
@@ -85,5 +91,36 @@ public class BuscarNomeActivity extends Activity implements TextWatcher {
     public void afterTextChanged(Editable editable) {
 
         Log.i("EditTextListener","afterTextChanged: " + editable);
+    }
+
+    // OnItemClickListener
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position,
+                            long id) {
+
+        Log.i("EditTextListener", "Position: " + position);
+
+        Toast toast = Toast.makeText(this,
+                "Item " + (position + 1) + ": " + pessoas.get(position),
+                Toast.LENGTH_LONG);
+        toast.show();
+    }
+
+    // BuscarPessoaCallBack
+    @Override
+    public void backBuscarNome(List<Pessoa> pessoas) {
+
+        this.pessoas.clear();
+        this.pessoas.addAll(pessoas);
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void errorBuscarNome(String error) {
+
+        pessoas.clear();
+        adapter.notifyDataSetChanged();
+
+        Toast.makeText(this, error, Toast.LENGTH_LONG);
     }
 }
