@@ -70,20 +70,14 @@ public class BuscarNomeActivity extends Activity
         String nome = charSequence.toString();
 
         // Consultar o servidor. Criar o JSONObject e uma AsyncTask<JSONObject, Void, Response>
-        try {
 
-            if (nome.length() >= TAMANHO_MINIMO_TEXTO) {
-                // JSON
-                JSONObject json = new JSONObject();
-                json.put("fullName", nome);
+        if (nome.length() >= TAMANHO_MINIMO_TEXTO) {
+            // Pessoa
+            Pessoa pessoa = new Pessoa();
+            pessoa.setNome(nome);
 
-                BuscarNomeAsyncTask buscarNomeAsyncTask = new BuscarNomeAsyncTask(this);
-                buscarNomeAsyncTask.execute(json);
-            }
-
-        } catch (JSONException e) {
-
-            Log.e("EditTextListener", e.getMessage());
+            BuscarNomeAsyncTask buscarNomeAsyncTask = new BuscarNomeAsyncTask(this);
+            buscarNomeAsyncTask.execute(pessoa);
         }
     }
 

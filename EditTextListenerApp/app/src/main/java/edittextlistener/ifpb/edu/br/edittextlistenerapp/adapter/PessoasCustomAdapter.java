@@ -37,6 +37,7 @@ public class PessoasCustomAdapter extends BaseAdapter {
             holder = new ViewHolder();
             holder.txtInscription = (TextView) convertView.findViewById(R.id.inscription);
             holder.txtFullName = (TextView) convertView.findViewById(R.id.fullName);
+            holder.txtEmail = (TextView) convertView.findViewById(R.id.email);
 
             convertView.setTag(holder);
 
@@ -49,6 +50,7 @@ public class PessoasCustomAdapter extends BaseAdapter {
 
         holder.txtFullName.setText(pessoaItem.getNome());
         holder.txtInscription.setText(pessoaItem.getDescricao());
+        holder.txtEmail.setText(pessoaItem.getEmail());
          
         return convertView;
     }
@@ -73,5 +75,6 @@ public class PessoasCustomAdapter extends BaseAdapter {
 
         TextView txtFullName;
         TextView txtInscription;
+        TextView txtEmail;
     }
 }

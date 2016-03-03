@@ -23,7 +23,7 @@ import edittextlistener.ifpb.edu.br.edittextlistenerapp.util.Response;
 /**
  * Created by Rhavy on 24/02/2016.
  */
-public class BuscarNomeAsyncTask extends AsyncTask<JSONObject, Void, Response> {
+public class BuscarNomeAsyncTask extends AsyncTask<Pessoa, Void, Response> {
 
     private BuscarPessoaCallBack buscarNomeCallBack;
 
@@ -33,18 +33,22 @@ public class BuscarNomeAsyncTask extends AsyncTask<JSONObject, Void, Response> {
     }
 
     @Override
-    protected Response doInBackground(JSONObject... jsons) {
+    protected Response doInBackground(Pessoa... pessoas) {
 
         Response response = null;
 
-        JSONObject json = jsons[0];
-        Log.i("EditTextListener", "doInBackground (JSON): " + json);
+        Pessoa pessoa = pessoas[0];
+        Log.i("EditTextListener", "doInBackground (JSON): " + pessoa);
 
         try {
 
+            // JSON
+            JSONObject json = new JSONObject();
+            json.put("fullName", pessoa.getNome());
+
             response = HttpService.sendJSONPostResquest("get-byname", json);
 
-        } catch (IOException e) {
+        } catch (IOException | JSONException e) {
 
             Log.e("EditTextListener", e.getMessage());
         }

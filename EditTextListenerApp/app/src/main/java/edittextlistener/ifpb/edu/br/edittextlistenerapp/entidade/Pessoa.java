@@ -9,6 +9,7 @@ import java.io.Serializable;
  */
 public class Pessoa implements Serializable {
 
+    public Pessoa () {}
 
     public Pessoa (String nome, String descricao) {
         this.nome = nome;
@@ -29,6 +30,22 @@ public class Pessoa implements Serializable {
 
     @SerializedName("isDelivered")
     private boolean entregue;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public boolean isEntregue() {
+        return entregue;
+    }
+
+    public void setEntregue(boolean entregue) {
+        this.entregue = entregue;
+    }
 
     public String getDescricao() {
         return descricao;
