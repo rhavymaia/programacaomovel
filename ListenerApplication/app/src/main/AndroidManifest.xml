@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="edittextlistener.ifpb.edu.br.edittextlistenerapp">
+          package="br.edu.ifpb.listenerapplication">
 
     <application
         android:allowBackup="true"
@@ -8,15 +8,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.BuscarNomeActivity">
-        </activity>
-        <activity android:name=".activity.SplashScreenActivity">
-        </activity>
-        <activity android:name=".activity.MyListActivity">
-        </activity>
-        <activity android:name=".activity.MostraSenhaActivity">
-        </activity>
-        <activity android:name=".activity.ItemListViewActivity">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
