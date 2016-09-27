@@ -30,6 +30,8 @@ public class MainActivity extends Activity implements View.OnClickListener{
         Log.i("MainActivity","OnClick");
 
         ImagemAsyncTask imagemAsyncTask = new ImagemAsyncTask(imagemCarregadaImageView);
-        imagemAsyncTask.execute("https://www.ifpb.edu.br/noticias/2016/09/psct-ifpb-seleciona-estudantes-para-cursos-tecnicos/postagem_geral_1.jpg/@@images/d49271ad-213a-4c83-b08a-ca321a844094.jpeg");
+        imagemAsyncTask.execute("https://www.ifpb.edu.br/campinagrande/noticias/2016/09/" +
+                "processo-seletivo-do-ifpb-oferta-dois-novos-cursos-no-campus-campina/" +
+                "psct-2017.jpg/@@images/0d03103f-6ab6-43d4-8870-2d6bd725a30e.jpeg");
     }
 }
