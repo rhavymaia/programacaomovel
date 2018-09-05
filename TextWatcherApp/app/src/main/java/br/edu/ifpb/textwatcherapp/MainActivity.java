@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
         nomeEditText = (EditText) findViewById(R.id.nomeEditText);
         hintTextView = (TextView) findViewById(R.id.hintTextView);
 
-        // Listener do TextWatcher.
+        // Adicionando o TextWatcher como Listener do EditText.
         nomeEditText.addTextChangedListener(watch);
     }
 
@@ -37,10 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
         /**
          * Acompanha os valores digitados no campo de edição de texto (EditText).
-         * @param text
-         * @param start
-         * @param before
-         * @param count
+         *
          */
         @Override
         public void onTextChanged(CharSequence text,
